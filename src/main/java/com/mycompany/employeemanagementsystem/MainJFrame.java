@@ -27,30 +27,138 @@ public class MainJFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTabbedPane1_PTEAdd = new javax.swing.JTabbedPane();
+        jPanel1_FTE = new javax.swing.JPanel();
+        list1_FTE = new java.awt.List();
+        jButton1_FTEAdd = new javax.swing.JButton();
+        jButton2_FTEEdit = new javax.swing.JButton();
+        jButton3_FTERemove = new javax.swing.JButton();
+        jButton4_FTESearch = new javax.swing.JButton();
+        jPanel2_PTE = new javax.swing.JPanel();
+        list1_PTE = new java.awt.List();
+        jButton1 = new javax.swing.JButton();
+        jButton2_PTEEdit = new javax.swing.JButton();
+        jButton3_PTERemove = new javax.swing.JButton();
+        jButton4_PTESearch = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem1_Save = new javax.swing.JMenuItem();
+        jMenuItem2_Load = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jButton1_FTEAdd.setText("Add");
+        jButton1_FTEAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1_FTEAddActionPerformed(evt);
+            }
+        });
+
+        jButton2_FTEEdit.setText("Edit");
+        jButton2_FTEEdit.setToolTipText("");
+
+        jButton3_FTERemove.setText("Remove");
+
+        jButton4_FTESearch.setText("Search");
+        jButton4_FTESearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4_FTESearchActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1_FTELayout = new javax.swing.GroupLayout(jPanel1_FTE);
+        jPanel1_FTE.setLayout(jPanel1_FTELayout);
+        jPanel1_FTELayout.setHorizontalGroup(
+            jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1_FTELayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(list1_FTE, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton2_FTEEdit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton3_FTERemove, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton4_FTESearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1_FTEAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(49, Short.MAX_VALUE))
+        );
+        jPanel1_FTELayout.setVerticalGroup(
+            jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1_FTELayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1_FTELayout.createSequentialGroup()
+                        .addComponent(jButton1_FTEAdd)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2_FTEEdit)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton3_FTERemove)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton4_FTESearch))
+                    .addComponent(list1_FTE, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(44, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1_PTEAdd.addTab("Full Time Employees", jPanel1_FTE);
+
+        jButton1.setText("Add");
+
+        jButton2_PTEEdit.setText("Edit");
+
+        jButton3_PTERemove.setText("Remove");
+
+        jButton4_PTESearch.setText("Search");
+
+        javax.swing.GroupLayout jPanel2_PTELayout = new javax.swing.GroupLayout(jPanel2_PTE);
+        jPanel2_PTE.setLayout(jPanel2_PTELayout);
+        jPanel2_PTELayout.setHorizontalGroup(
+            jPanel2_PTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2_PTELayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(list1_PTE, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2_PTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton2_PTEEdit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton3_PTERemove, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton4_PTESearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(49, Short.MAX_VALUE))
+        );
+        jPanel2_PTELayout.setVerticalGroup(
+            jPanel2_PTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2_PTELayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2_PTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2_PTELayout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2_PTEEdit)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton3_PTERemove)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton4_PTESearch))
+                    .addComponent(list1_PTE, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(44, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1_PTEAdd.addTab("Part Time Employees", jPanel2_PTE);
+
         jMenu1.setText("File");
 
-        jMenuItem1.setText("Save");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem1_Save.setText("Save");
+        jMenuItem1_Save.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                jMenuItem1_SaveActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        jMenu1.add(jMenuItem1_Save);
 
-        jMenuItem2.setText("Load");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem2_Load.setText("Load");
+        jMenuItem2_Load.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                jMenuItem2_LoadActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem2);
+        jMenu1.add(jMenuItem2_Load);
 
         jMenuBar1.add(jMenu1);
 
@@ -60,11 +168,11 @@ public class MainJFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1_PTEAdd)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 278, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1_PTEAdd)
         );
 
         pack();
@@ -72,15 +180,23 @@ public class MainJFrame extends javax.swing.JFrame {
     
     
     
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void jMenuItem2_LoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2_LoadActionPerformed
         // TODO add your handling code here:
         // Load
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_jMenuItem2_LoadActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void jMenuItem1_SaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1_SaveActionPerformed
         // TODO add your handling code here:
         //Save
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_jMenuItem1_SaveActionPerformed
+
+    private void jButton1_FTEAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1_FTEAddActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1_FTEAddActionPerformed
+
+    private void jButton4_FTESearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4_FTESearchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4_FTESearchActionPerformed
 
     /**
      * @param args the command line arguments
@@ -118,9 +234,22 @@ public class MainJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton1_FTEAdd;
+    private javax.swing.JButton jButton2_FTEEdit;
+    private javax.swing.JButton jButton2_PTEEdit;
+    private javax.swing.JButton jButton3_FTERemove;
+    private javax.swing.JButton jButton3_PTERemove;
+    private javax.swing.JButton jButton4_FTESearch;
+    private javax.swing.JButton jButton4_PTESearch;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem1_Save;
+    private javax.swing.JMenuItem jMenuItem2_Load;
+    private javax.swing.JPanel jPanel1_FTE;
+    private javax.swing.JPanel jPanel2_PTE;
+    private javax.swing.JTabbedPane jTabbedPane1_PTEAdd;
+    private java.awt.List list1_FTE;
+    private java.awt.List list1_PTE;
     // End of variables declaration//GEN-END:variables
 }
