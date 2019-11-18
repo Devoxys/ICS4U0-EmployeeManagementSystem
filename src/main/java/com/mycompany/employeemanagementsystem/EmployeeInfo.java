@@ -41,10 +41,6 @@ public class EmployeeInfo {
         this.deductionsRate = 0;
     }
 
-    public double getAnnualSalary(){
-        return 0.0;
-    }
-
     public int getEmpNumber() {
         return empNumber;
     }

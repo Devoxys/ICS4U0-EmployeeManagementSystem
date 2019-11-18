@@ -26,7 +26,6 @@ public class FTE extends EmployeeInfo {
         return this.annualSalary*(1-this.getDeductionsRate());
     }
 
-    @Override
     public double getAnnualSalary() {
         return annualSalary;
     }

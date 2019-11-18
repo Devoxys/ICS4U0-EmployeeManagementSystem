@@ -87,4 +87,15 @@ public class MyHashTable {
             }
         }
     }
+    
+    public ArrayList<EmployeeInfo> getAllFromTable(){
+        ArrayList<EmployeeInfo> allEmployeeArrayList = new ArrayList<EmployeeInfo>();
+        for (int i = 0; i < buckets.length; i++){
+            ArrayList<EmployeeInfo> al = buckets[i];
+            for (EmployeeInfo s: al){
+                allEmployeeArrayList.add(s);
+            }
+        }
+        return allEmployeeArrayList;
+    }
 }
