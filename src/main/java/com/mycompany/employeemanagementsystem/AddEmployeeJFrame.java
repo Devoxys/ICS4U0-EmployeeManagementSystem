@@ -5,7 +5,16 @@
  */
 package com.mycompany.employeemanagementsystem;
 
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileFilter;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -16,6 +25,7 @@ public class AddEmployeeJFrame extends javax.swing.JFrame {
     private MyHashTable mainHT;
     private DefaultTableModel mainFTETableModel;
     private DefaultTableModel mainPTETableModel;
+    private File upload;
 
     /**
      * Creates new form AddEmployeeJFrame
@@ -71,6 +81,8 @@ public class AddEmployeeJFrame extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jFormattedTextField2_HpW = new javax.swing.JFormattedTextField();
         jFormattedTextField2_WY = new javax.swing.JFormattedTextField();
+        jLabel11_ImagePreview = new javax.swing.JLabel();
+        jButton2_Upload = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -110,6 +122,7 @@ public class AddEmployeeJFrame extends javax.swing.JFrame {
         jLabel6.setText("Deductions Rate:");
 
         jFormattedTextField2_DR.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        jFormattedTextField2_DR.setNextFocusableComponent(jRadioButton1_FTE);
         jFormattedTextField2_DR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jFormattedTextField2_DRActionPerformed(evt);
@@ -133,6 +146,7 @@ public class AddEmployeeJFrame extends javax.swing.JFrame {
 
         buttonGroup2_AddEmp.add(jRadioButton1_FTE);
         jRadioButton1_FTE.setText("Full Time Employee");
+        jRadioButton1_FTE.setNextFocusableComponent(jRadioButton2_PTE);
         jRadioButton1_FTE.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton1_FTEActionPerformed(evt);
@@ -191,6 +205,16 @@ public class AddEmployeeJFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabel11_ImagePreview.setBackground(new java.awt.Color(153, 153, 153));
+        jLabel11_ImagePreview.setOpaque(true);
+
+        jButton2_Upload.setText("Upload");
+        jButton2_Upload.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2_UploadActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -223,15 +247,15 @@ public class AddEmployeeJFrame extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jComboBox2_WorkL, 0, 1, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jFormattedTextField2_DR, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jButton2_Cancel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1_Submit)
                         .addGap(2, 2, 2))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jFormattedTextField2_DR, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
@@ -242,22 +266,30 @@ public class AddEmployeeJFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jFormattedTextField2_HW)
-                                    .addComponent(jFormattedTextField2_HpW)))
-                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jRadioButton2_PTE)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel10)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jFormattedTextField2_WY)))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jLabel10))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jFormattedTextField2_WY)
+                                    .addComponent(jFormattedTextField2_HW)
+                                    .addComponent(jFormattedTextField2_HpW))))))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel11_ImagePreview, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2_Upload, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton2_Upload, jLabel11_ImagePreview});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -296,10 +328,14 @@ public class AddEmployeeJFrame extends javax.swing.JFrame {
                     .addComponent(jLabel9)
                     .addComponent(jFormattedTextField2_HpW, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10)
-                    .addComponent(jFormattedTextField2_WY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jFormattedTextField2_WY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel11_ImagePreview, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2_Upload)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1_Submit)
                     .addComponent(jButton2_Cancel))
@@ -365,6 +401,9 @@ public class AddEmployeeJFrame extends javax.swing.JFrame {
                 double annualSalary = Double.parseDouble(this.jFormattedTextField1_AS.getText());
 
                 FTE newFTE = new FTE(empNum, firstName, lastName, gender, workL, deducRate, annualSalary);
+                if (upload != null){
+                    newFTE.setPhotoPath(upload.getAbsolutePath());
+                }
                 this.mainHT.addToTable(newFTE);
                 Object[] fteRow = {empNum, firstName, lastName, genderS, 
                     workLS, deducRate, annualSalary, annualSalary, newFTE.calcAnnualNetIncome()};
@@ -381,6 +420,9 @@ public class AddEmployeeJFrame extends javax.swing.JFrame {
 
                PTE newPTE = new PTE(empNum, firstName, lastName, gender, workL, deducRate, 
                    hourlyWage, hoursPerWeek, weeksPerYear);
+               if (upload != null){
+                    newPTE.setPhotoPath(upload.getAbsolutePath());
+                }
                this.mainHT.addToTable(newPTE);
                Object[] pteRow = {empNum, firstName, lastName, genderS, workLS, deducRate, 
                    hourlyWage, hoursPerWeek, weeksPerYear, 
@@ -441,6 +483,23 @@ public class AddEmployeeJFrame extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton2_CancelActionPerformed
 
+    private void jButton2_UploadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2_UploadActionPerformed
+        // TODO add your handling code here:
+        JFileChooser fc = new JFileChooser();
+        fc.setCurrentDirectory(new File(System.getProperty("user.home")));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("Image Files", ImageIO.getReaderFileSuffixes()));
+        int openResult = fc.showOpenDialog(this);
+        if (openResult == JFileChooser.APPROVE_OPTION){
+            upload = fc.getSelectedFile();
+            try{
+                ImageIcon ii = new ImageIcon(scaleImage(90, 90, ImageIO.read(new File(upload.getAbsolutePath()))));
+                this.jLabel11_ImagePreview.setIcon(ii); 
+            }catch (Exception ex){
+                ex.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_jButton2_UploadActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -474,6 +533,16 @@ public class AddEmployeeJFrame extends javax.swing.JFrame {
                 new AddEmployeeJFrame().setVisible(true);
             }
         });
+    }
+    
+    public BufferedImage scaleImage(int w, int h, BufferedImage image){
+        BufferedImage bi = new BufferedImage(w, h, BufferedImage.TRANSLUCENT);
+        Graphics2D g2d = (Graphics2D) bi.createGraphics();
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.addRenderingHints(new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY));
+        g2d.drawImage(image, 0, 0, w, h, null);
+        g2d.dispose();
+        return bi;
     }
     
     public void setEmpNum(int empNum){
@@ -510,7 +579,6 @@ public class AddEmployeeJFrame extends javax.swing.JFrame {
         this.jFormattedTextField2_HW.setEnabled(false);
         this.jFormattedTextField2_HpW.setEnabled(false);
         this.jFormattedTextField2_WY.setEnabled(false);
-        
     }
     
     public void selectPTERadio(){
@@ -540,11 +608,26 @@ public class AddEmployeeJFrame extends javax.swing.JFrame {
     public void setWeeksPerYear(double weeksPerYear){
         this.jFormattedTextField2_WY.setValue(weeksPerYear);
     }
+    
+    public void setImagePreview(String filePath){
+        try {
+            upload = new File(filePath);
+            ImageIcon ii = new ImageIcon(scaleImage(120, 120, ImageIO.read(new File(upload.getAbsolutePath()))));
+            this.jLabel11_ImagePreview.setIcon(ii); 
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+    
+    public void disableCancel(){
+        this.jButton2_Cancel.setEnabled(false);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup2_AddEmp;
     private javax.swing.JButton jButton1_Submit;
     private javax.swing.JButton jButton2_Cancel;
+    private javax.swing.JButton jButton2_Upload;
     private javax.swing.JComboBox<String> jComboBox1_Gender;
     private javax.swing.JComboBox<String> jComboBox2_WorkL;
     private javax.swing.JFormattedTextField jFormattedTextField1_AS;
@@ -555,6 +638,7 @@ public class AddEmployeeJFrame extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField jFormattedTextField2_WY;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11_ImagePreview;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

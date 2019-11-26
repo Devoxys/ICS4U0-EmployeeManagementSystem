@@ -5,10 +5,21 @@
  */
 package com.mycompany.employeemanagementsystem;
 
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -20,13 +31,15 @@ import javax.swing.table.DefaultTableModel;
  */
 public class MainJFrame extends javax.swing.JFrame {
     private MyHashTable theHT;
-
+    private File employeesFile;
+    private JFileChooser fileChooser;
     /**
      * Creates new form MainJFrame
      */
     public MainJFrame() {
         initComponents();
         theHT = new MyHashTable(10);
+        fileChooser = new JFileChooser();
     }
 
     /**
@@ -48,6 +61,7 @@ public class MainJFrame extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jFormattedTextField1_FTESearch = new javax.swing.JFormattedTextField();
         jButton1_FTEShowAll = new javax.swing.JButton();
+        jLabel1_FTEImage = new javax.swing.JLabel();
         jPanel2_PTE = new javax.swing.JPanel();
         jButton1_PTEAdd = new javax.swing.JButton();
         jButton2_PTEEdit = new javax.swing.JButton();
@@ -57,265 +71,320 @@ public class MainJFrame extends javax.swing.JFrame {
         jTable2 = new javax.swing.JTable();
         jFormattedTextField1_PTESearch = new javax.swing.JFormattedTextField();
         jButton1_PTEShowAll = new javax.swing.JButton();
+        jLabel1_PTEImage = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1_Save = new javax.swing.JMenuItem();
+        jMenuItem1_SaveAs = new javax.swing.JMenuItem();
         jMenuItem2_Load = new javax.swing.JMenuItem();
+        jMenuItem1_Export = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1_FTEAdd.setText("Add");
-        jButton1_FTEAdd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1_FTEAddActionPerformed(evt);
-            }
-        });
+        jTable2.getSelectionModel().addListSelectionListener(
+            new ListSelectionListener(){
+                @Override
+                public void valueChanged(ListSelectionEvent evt){
+                    updateImage(false, evt.getFirstIndex());
+                }
+            });
 
-        jButton2_FTEEdit.setText("Edit");
-        jButton2_FTEEdit.setToolTipText("");
-        jButton2_FTEEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2_FTEEditActionPerformed(evt);
-            }
-        });
+            jButton1_FTEAdd.setText("Add");
+            jButton1_FTEAdd.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jButton1_FTEAddActionPerformed(evt);
+                }
+            });
 
-        jButton3_FTERemove.setText("Remove");
-        jButton3_FTERemove.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3_FTERemoveActionPerformed(evt);
-            }
-        });
+            jButton2_FTEEdit.setText("Edit");
+            jButton2_FTEEdit.setToolTipText("");
+            jButton2_FTEEdit.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jButton2_FTEEditActionPerformed(evt);
+                }
+            });
 
-        jButton4_FTESearch.setText("Search");
-        jButton4_FTESearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4_FTESearchActionPerformed(evt);
-            }
-        });
+            jButton3_FTERemove.setText("Remove");
+            jButton3_FTERemove.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jButton3_FTERemoveActionPerformed(evt);
+                }
+            });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+            jButton4_FTESearch.setText("Search");
+            jButton4_FTESearch.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jButton4_FTESearchActionPerformed(evt);
+                }
+            });
 
-            },
-            new String [] {
-                "Number", "First Name", "Last Name", "Gender", "Location", "Deductions Rate", "Annual Salary", "Gross Pay", "Net Pay"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
-            };
+            jTable1.setModel(new javax.swing.table.DefaultTableModel(
+                new Object [][] {
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane1.setViewportView(jTable1);
+                },
+                new String [] {
+                    "Number", "First Name", "Last Name", "Gender", "Location", "Deductions Rate", "Annual Salary", "Gross Pay", "Net Pay"
+                }
+            ) {
+                boolean[] canEdit = new boolean [] {
+                    false, false, false, false, false, false, false, false, false
+                };
 
-        jFormattedTextField1_FTESearch.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit [columnIndex];
+                }
+            });
+            jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+            jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+            jTable1.getSelectionModel().addListSelectionListener(
+                new ListSelectionListener(){
+                    @Override
+                    public void valueChanged(ListSelectionEvent evt){
+                        updateImage(true, evt.getFirstIndex());
+                    }
+                });
+                jScrollPane1.setViewportView(jTable1);
 
-        jButton1_FTEShowAll.setText("Show All");
-        jButton1_FTEShowAll.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1_FTEShowAllActionPerformed(evt);
-            }
-        });
+                jFormattedTextField1_FTESearch.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
 
-        javax.swing.GroupLayout jPanel1_FTELayout = new javax.swing.GroupLayout(jPanel1_FTE);
-        jPanel1_FTE.setLayout(jPanel1_FTELayout);
-        jPanel1_FTELayout.setHorizontalGroup(
-            jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1_FTELayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                jButton1_FTEShowAll.setText("Show All");
+                jButton1_FTEShowAll.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        jButton1_FTEShowAllActionPerformed(evt);
+                    }
+                });
+
+                jLabel1_FTEImage.setBackground(new java.awt.Color(153, 153, 153));
+                jLabel1_FTEImage.setOpaque(true);
+
+                javax.swing.GroupLayout jPanel1_FTELayout = new javax.swing.GroupLayout(jPanel1_FTE);
+                jPanel1_FTE.setLayout(jPanel1_FTELayout);
+                jPanel1_FTELayout.setHorizontalGroup(
+                    jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1_FTELayout.createSequentialGroup()
-                        .addComponent(jFormattedTextField1_FTESearch)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4_FTESearch, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1_FTELayout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 556, Short.MAX_VALUE)
+                        .addContainerGap()
+                        .addGroup(jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1_FTELayout.createSequentialGroup()
+                                .addComponent(jFormattedTextField1_FTESearch, javax.swing.GroupLayout.DEFAULT_SIZE, 555, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton4_FTESearch, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1_FTELayout.createSequentialGroup()
+                                .addComponent(jScrollPane1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1_FTELayout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addComponent(jLabel1_FTEImage, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jButton1_FTEAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jButton2_FTEEdit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jButton3_FTERemove, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jButton1_FTEShowAll, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addContainerGap())
+                );
+                jPanel1_FTELayout.setVerticalGroup(
+                    jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1_FTELayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1_FTELayout.createSequentialGroup()
+                                .addComponent(jButton1_FTEAdd)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton2_FTEEdit)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton3_FTERemove)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel1_FTEImage, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                                .addComponent(jButton1_FTEShowAll))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jButton1_FTEAdd, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
-                                .addComponent(jButton2_FTEEdit, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
-                                .addComponent(jButton3_FTERemove, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE))
-                            .addComponent(jButton1_FTEShowAll, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap())
-        );
-        jPanel1_FTELayout.setVerticalGroup(
-            jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1_FTELayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1_FTELayout.createSequentialGroup()
-                        .addComponent(jButton1_FTEAdd)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2_FTEEdit)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3_FTERemove)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
-                        .addComponent(jButton1_FTEShowAll))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jFormattedTextField1_FTESearch, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4_FTESearch))
-                .addContainerGap())
-        );
+                            .addComponent(jFormattedTextField1_FTESearch, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton4_FTESearch)))
+                );
 
-        jTabbedPane1_PTEAdd.addTab("Full Time Employees", jPanel1_FTE);
+                jTabbedPane1_PTEAdd.addTab("Full Time Employees", jPanel1_FTE);
 
-        jButton1_PTEAdd.setText("Add");
-        jButton1_PTEAdd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1_PTEAddActionPerformed(evt);
-            }
-        });
+                jButton1_PTEAdd.setText("Add");
+                jButton1_PTEAdd.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        jButton1_PTEAddActionPerformed(evt);
+                    }
+                });
 
-        jButton2_PTEEdit.setText("Edit");
-        jButton2_PTEEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2_PTEEditActionPerformed(evt);
-            }
-        });
+                jButton2_PTEEdit.setText("Edit");
+                jButton2_PTEEdit.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        jButton2_PTEEditActionPerformed(evt);
+                    }
+                });
 
-        jButton3_PTERemove.setText("Remove");
-        jButton3_PTERemove.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3_PTERemoveActionPerformed(evt);
-            }
-        });
+                jButton3_PTERemove.setText("Remove");
+                jButton3_PTERemove.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        jButton3_PTERemoveActionPerformed(evt);
+                    }
+                });
 
-        jButton4_PTESearch.setText("Search");
-        jButton4_PTESearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4_PTESearchActionPerformed(evt);
-            }
-        });
+                jButton4_PTESearch.setText("Search");
+                jButton4_PTESearch.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        jButton4_PTESearchActionPerformed(evt);
+                    }
+                });
 
-        jTable2.setAutoCreateRowSorter(true);
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+                jTable2.setModel(new javax.swing.table.DefaultTableModel(
+                    new Object [][] {
 
-            },
-            new String [] {
-                "Number", "First Name", "Last Name", "Gender", "Location", "Deductions Rate", "Hourly Wage", "Hours Per Week", "Weeks Per Year", "Gross Pay", "Net Pay"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false
-            };
+                    },
+                    new String [] {
+                        "Number", "First Name", "Last Name", "Gender", "Location", "Deductions Rate", "Hourly Wage", "Hours Per Week", "Weeks Per Year", "Gross Pay", "Net Pay"
+                    }
+                ) {
+                    boolean[] canEdit = new boolean [] {
+                        false, false, false, false, false, false, false, false, false, false, false
+                    };
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jTable2.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        jTable2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane2.setViewportView(jTable2);
+                    public boolean isCellEditable(int rowIndex, int columnIndex) {
+                        return canEdit [columnIndex];
+                    }
+                });
+                jTable2.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+                jTable2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+                jScrollPane2.setViewportView(jTable2);
 
-        jFormattedTextField1_PTESearch.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+                jFormattedTextField1_PTESearch.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
 
-        jButton1_PTEShowAll.setText("Show All");
-        jButton1_PTEShowAll.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1_PTEShowAllActionPerformed(evt);
-            }
-        });
+                jButton1_PTEShowAll.setText("Show All");
+                jButton1_PTEShowAll.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        jButton1_PTEShowAllActionPerformed(evt);
+                    }
+                });
 
-        javax.swing.GroupLayout jPanel2_PTELayout = new javax.swing.GroupLayout(jPanel2_PTE);
-        jPanel2_PTE.setLayout(jPanel2_PTELayout);
-        jPanel2_PTELayout.setHorizontalGroup(
-            jPanel2_PTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2_PTELayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2_PTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jFormattedTextField1_PTESearch, javax.swing.GroupLayout.DEFAULT_SIZE, 556, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2_PTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2_PTEEdit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3_PTERemove, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
-                    .addComponent(jButton4_PTESearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1_PTEAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1_PTEShowAll, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        jPanel2_PTELayout.setVerticalGroup(
-            jPanel2_PTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2_PTELayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2_PTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                jLabel1_PTEImage.setBackground(new java.awt.Color(153, 153, 153));
+                jLabel1_PTEImage.setOpaque(true);
+
+                javax.swing.GroupLayout jPanel2_PTELayout = new javax.swing.GroupLayout(jPanel2_PTE);
+                jPanel2_PTE.setLayout(jPanel2_PTELayout);
+                jPanel2_PTELayout.setHorizontalGroup(
+                    jPanel2_PTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2_PTELayout.createSequentialGroup()
-                        .addComponent(jButton1_PTEAdd)
+                        .addContainerGap()
+                        .addGroup(jPanel2_PTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jFormattedTextField1_PTESearch, javax.swing.GroupLayout.DEFAULT_SIZE, 554, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 548, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2_PTEEdit)
+                        .addGroup(jPanel2_PTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton2_PTEEdit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton3_PTERemove, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
+                            .addComponent(jButton4_PTESearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton1_PTEAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton1_PTEShowAll, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2_PTELayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel1_PTEImage, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(11, 11, 11)))
+                        .addContainerGap())
+                );
+                jPanel2_PTELayout.setVerticalGroup(
+                    jPanel2_PTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2_PTELayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel2_PTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2_PTELayout.createSequentialGroup()
+                                .addComponent(jButton1_PTEAdd)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton2_PTEEdit)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton3_PTERemove)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel1_PTEImage, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                                .addComponent(jButton1_PTEShowAll))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3_PTERemove)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1_PTEShowAll))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2_PTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jFormattedTextField1_PTESearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4_PTESearch))
-                .addGap(3, 3, 3))
-        );
+                        .addGroup(jPanel2_PTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jFormattedTextField1_PTESearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton4_PTESearch))
+                        .addGap(3, 3, 3))
+                );
 
-        jTabbedPane1_PTEAdd.addTab("Part Time Employees", jPanel2_PTE);
+                jTabbedPane1_PTEAdd.addTab("Part Time Employees", jPanel2_PTE);
 
-        jMenu1.setText("File");
+                jMenu1.setText("File");
 
-        jMenuItem1_Save.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem1_Save.setText("Save");
-        jMenuItem1_Save.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1_SaveActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMenuItem1_Save);
+                jMenuItem1_Save.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+                jMenuItem1_Save.setText("Save");
+                jMenuItem1_Save.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        jMenuItem1_SaveActionPerformed(evt);
+                    }
+                });
+                jMenu1.add(jMenuItem1_Save);
 
-        jMenuItem2_Load.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem2_Load.setText("Load");
-        jMenuItem2_Load.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2_LoadActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMenuItem2_Load);
+                jMenuItem1_SaveAs.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+                jMenuItem1_SaveAs.setText("Save As");
+                jMenuItem1_SaveAs.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        jMenuItem1_SaveAsActionPerformed(evt);
+                    }
+                });
+                jMenu1.add(jMenuItem1_SaveAs);
 
-        jMenuBar1.add(jMenu1);
+                jMenuItem2_Load.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+                jMenuItem2_Load.setText("Load");
+                jMenuItem2_Load.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        jMenuItem2_LoadActionPerformed(evt);
+                    }
+                });
+                jMenu1.add(jMenuItem2_Load);
 
-        setJMenuBar(jMenuBar1);
+                jMenuItem1_Export.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
+                jMenuItem1_Export.setText("Export");
+                jMenuItem1_Export.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        jMenuItem1_ExportActionPerformed(evt);
+                    }
+                });
+                jMenu1.add(jMenuItem1_Export);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1_PTEAdd)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1_PTEAdd)
-        );
+                jMenuBar1.add(jMenu1);
 
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
+                setJMenuBar(jMenuBar1);
+
+                javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+                getContentPane().setLayout(layout);
+                layout.setHorizontalGroup(
+                    layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTabbedPane1_PTEAdd)
+                );
+                layout.setVerticalGroup(
+                    layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTabbedPane1_PTEAdd)
+                );
+
+                pack();
+            }// </editor-fold>//GEN-END:initComponents
     
     
     
     private void jMenuItem2_LoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2_LoadActionPerformed
         // TODO add your handling code here:
         // Load
+        ((DefaultTableModel)this.jTable1.getModel()).setRowCount(0);
+        ((DefaultTableModel)this.jTable2.getModel()).setRowCount(0);
+        this.fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+        
         FileReader fr = null;
         BufferedReader br = null;
         try{
-            fr = new FileReader("Employees");
+            fr = new FileReader(this.employeesFile.getAbsolutePath());
             
         }catch (FileNotFoundException e){
-            System.out.println("Either file not found");
+            System.out.println("Either file not found or something went wrong");
         }
         try{
             br = new BufferedReader(fr);
@@ -338,13 +407,64 @@ public class MainJFrame extends javax.swing.JFrame {
             }
         }catch (Exception e){
             System.out.println("Some error occurred");
+        }finally{
+            try{
+                if (br!=null){
+                    br.close();
+                }
+            }catch(Exception ex){
+                System.out.println("Error in opening the BufferedReader" + ex);
+            }
         }
     }//GEN-LAST:event_jMenuItem2_LoadActionPerformed
 
     private void jMenuItem1_SaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1_SaveActionPerformed
         // TODO add your handling code here:
         //Save
-        
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+        if (this.employeesFile == null){
+            int saveResult = this.fileChooser.showSaveDialog(this);
+             if (saveResult == JFileChooser.APPROVE_OPTION){
+                this.employeesFile = fileChooser.getSelectedFile();
+            }
+        }
+        try {
+            fw = new FileWriter(this.employeesFile);
+            bw = new BufferedWriter(fw);
+            ArrayList<EmployeeInfo> allContent = this.theHT.getAllFromTable();
+            
+            
+            for (EmployeeInfo e: allContent){
+                if (e instanceof FTE){
+                    String out = "FTE " + e.getEmpNumber() + " " 
+                            + e.getFirstName() + " " + e.getLastName() + " "
+                            + e.getGender() + " " + e.getWorkLocation() + " "
+                            + e.getDeductionsRate() + " " + ((FTE) e).getAnnualSalary()
+                            + e.getPhotoPath();
+                    bw.write(out);
+                    bw.newLine();
+                }else if (e instanceof PTE){
+                    String out = "PTE " + e.getEmpNumber() + " " 
+                            + e.getFirstName() + " " + e.getLastName() + " "
+                            + e.getGender() + " " + e.getWorkLocation() + " "
+                            + e.getDeductionsRate() + " " + ((PTE) e).getHourlyWage() + " "
+                            + ((PTE) e).getHoursPerWeek() + " " + ((PTE) e).getWeeksPerYear()
+                            + e.getPhotoPath();
+                    bw.write(out);
+                    bw.newLine();
+                }
+            }
+        } catch (IOException ioe) {
+	   ioe.printStackTrace();
+	}finally{ 
+	   try{
+	      if(bw!=null)
+		 bw.close();
+	   }catch(Exception ex){
+	       System.out.println("Error in closing the BufferedWriter"+ex);
+	    }
+	}
     }//GEN-LAST:event_jMenuItem1_SaveActionPerformed
 
     private void jButton1_FTEAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1_FTEAddActionPerformed
@@ -426,7 +546,9 @@ public class MainJFrame extends javax.swing.JFrame {
             editEmployeeJFrame.setWorkLocation(workLS);
             editEmployeeJFrame.setDeductionsRate(deductionsRate);
             editEmployeeJFrame.setAnnualSalary(annualSalary);
-
+            editEmployeeJFrame.setImagePreview(removedFTE.getPhotoPath());
+            editEmployeeJFrame.disableCancel();
+            
             editEmployeeJFrame.setVisible(true);
 
             DefaultTableModel jTable1Model = (DefaultTableModel) jTable1.getModel();
@@ -523,6 +645,8 @@ public class MainJFrame extends javax.swing.JFrame {
             editEmployeeJFrame.setHourlyWage(hourlyWage);
             editEmployeeJFrame.setHoursPerWeek(hoursPerWeek);
             editEmployeeJFrame.setWeeksPerYear(weeksPerYear);
+            editEmployeeJFrame.setImagePreview(removedPTE.getPhotoPath());
+            editEmployeeJFrame.disableCancel();
 
             editEmployeeJFrame.setVisible(true);
 
@@ -554,6 +678,100 @@ public class MainJFrame extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButton1_PTEShowAllActionPerformed
+
+    private void jMenuItem1_SaveAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1_SaveAsActionPerformed
+        // TODO add your handling code here:
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+        
+        int saveResult = this.fileChooser.showSaveDialog(this);
+        if (saveResult == JFileChooser.APPROVE_OPTION) {
+            this.employeesFile = fileChooser.getSelectedFile();
+        }
+        
+        try {
+            fw = new FileWriter(this.employeesFile);
+            bw = new BufferedWriter(fw);
+            ArrayList<EmployeeInfo> allContent = this.theHT.getAllFromTable();
+            
+            
+            for (EmployeeInfo e: allContent){
+                if (e instanceof FTE){
+                    String out = "FTE " + e.getEmpNumber() + " " 
+                            + e.getFirstName() + " " + e.getLastName() + " "
+                            + e.getGender() + " " + e.getWorkLocation() + " "
+                            + e.getDeductionsRate() + " " + ((FTE) e).getAnnualSalary()
+                            + e.getPhotoPath();
+                    bw.write(out);
+                    bw.newLine();
+                }else if (e instanceof PTE){
+                    String out = "PTE " + e.getEmpNumber() + " " 
+                            + e.getFirstName() + " " + e.getLastName() + " "
+                            + e.getGender() + " " + e.getWorkLocation() + " "
+                            + e.getDeductionsRate() + " " + ((PTE) e).getHourlyWage() + " "
+                            + ((PTE) e).getHoursPerWeek() + " " + ((PTE) e).getWeeksPerYear()
+                            + e.getPhotoPath();
+                    bw.write(out);
+                    bw.newLine();
+                }
+            }
+        } catch (IOException ioe) {
+	   ioe.printStackTrace();
+	}finally{ 
+	   try{
+	      if(bw!=null)
+		 bw.close();
+	   }catch(Exception ex){
+	       System.out.println("Error in closing the BufferedWriter"+ex);
+	    }
+	}
+    }//GEN-LAST:event_jMenuItem1_SaveAsActionPerformed
+
+    private void jMenuItem1_ExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1_ExportActionPerformed
+        // TODO add your handling code here:
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+        
+        int saveResult = this.fileChooser.showSaveDialog(this);
+        if (saveResult == JFileChooser.APPROVE_OPTION) {
+            this.employeesFile = fileChooser.getSelectedFile();
+        }
+        
+        try {
+            fw = new FileWriter(this.employeesFile);
+            bw = new BufferedWriter(fw);
+            ArrayList<EmployeeInfo> allContent = this.theHT.getAllFromTable();
+            
+            
+            for (EmployeeInfo e: allContent){
+                if (e instanceof FTE){
+                    String out = "FTE " + e.getEmpNumber() + " " 
+                            + e.getFirstName() + " " + e.getLastName() + " "
+                            + e.getGender() + " " + e.getWorkLocation() + " "
+                            + e.getDeductionsRate() + " " + ((FTE) e).getAnnualSalary();
+                    bw.write(out);
+                    bw.newLine();
+                }else if (e instanceof PTE){
+                    String out = "PTE " + e.getEmpNumber() + " " 
+                            + e.getFirstName() + " " + e.getLastName() + " "
+                            + e.getGender() + " " + e.getWorkLocation() + " "
+                            + e.getDeductionsRate() + " " + ((PTE) e).getHourlyWage() + " "
+                            + ((PTE) e).getHoursPerWeek() + " " + ((PTE) e).getWeeksPerYear();
+                    bw.write(out);
+                    bw.newLine();
+                }
+            }
+        } catch (IOException ioe) {
+	   ioe.printStackTrace();
+	}finally{ 
+	   try{
+	      if(bw!=null)
+		 bw.close();
+	   }catch(Exception ex){
+	       System.out.println("Error in closing the BufferedWriter"+ex);
+	    }
+	}
+    }//GEN-LAST:event_jMenuItem1_ExportActionPerformed
 
     /**
      * @param args the command line arguments
@@ -590,6 +808,7 @@ public class MainJFrame extends javax.swing.JFrame {
         });
     }
     
+    
     public EmployeeInfo createEmployee(String[] para){
         if (para[0].equals("FTE")){
             FTE fteData = new FTE(Integer.parseInt(para[1]), 
@@ -598,6 +817,9 @@ public class MainJFrame extends javax.swing.JFrame {
                             Integer.parseInt(para[5]), 
                             Double.parseDouble(para[6]),
                             Double.parseDouble(para[7]));
+            if (para.length == 9){
+                fteData.setPhotoPath(para[8]);
+            }
             return fteData;
         }else if (para[0].equals("PTE")){
             PTE pteData = new PTE(Integer.parseInt(para[1]), 
@@ -608,6 +830,9 @@ public class MainJFrame extends javax.swing.JFrame {
                             Double.parseDouble(para[7]),
                             Double.parseDouble(para[8]),
                             Double.parseDouble(para[9]));
+            if (para.length == 11){
+                pteData.setPhotoPath(para[10]);
+            }
             return pteData;
         }
         return null;
@@ -731,6 +956,34 @@ public class MainJFrame extends javax.swing.JFrame {
         return model;
     }
     
+    public void updateImage(boolean employeeType, int index){
+        JTable whichTable = this.jTable2;
+        if (employeeType){
+            whichTable = this.jTable1;
+        }
+        int empNum = Integer.parseInt(whichTable.getModel().getValueAt(index, 0).toString());
+        EmployeeInfo emp = this.theHT.getFromTable(empNum);
+        try{
+            ImageIcon ii = new ImageIcon(scaleImage(90, 90, ImageIO.read(new File(emp.getPhotoPath()))));
+            if (employeeType){
+                this.jLabel1_FTEImage.setIcon(ii);
+            }else {
+                this.jLabel1_PTEImage.setIcon(ii);
+            } 
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    public BufferedImage scaleImage(int w, int h, BufferedImage image){
+        BufferedImage bi = new BufferedImage(w, h, BufferedImage.TRANSLUCENT);
+        Graphics2D g2d = (Graphics2D) bi.createGraphics();
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.addRenderingHints(new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY));
+        g2d.drawImage(image, 0, 0, w, h, null);
+        g2d.dispose();
+        return bi;
+    }
   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1_FTEAdd;
@@ -745,9 +998,13 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton4_PTESearch;
     private javax.swing.JFormattedTextField jFormattedTextField1_FTESearch;
     private javax.swing.JFormattedTextField jFormattedTextField1_PTESearch;
+    private javax.swing.JLabel jLabel1_FTEImage;
+    private javax.swing.JLabel jLabel1_PTEImage;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1_Export;
     private javax.swing.JMenuItem jMenuItem1_Save;
+    private javax.swing.JMenuItem jMenuItem1_SaveAs;
     private javax.swing.JMenuItem jMenuItem2_Load;
     private javax.swing.JPanel jPanel1_FTE;
     private javax.swing.JPanel jPanel2_PTE;
