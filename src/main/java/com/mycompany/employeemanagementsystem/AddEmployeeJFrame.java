@@ -14,6 +14,8 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
@@ -25,12 +27,31 @@ public class AddEmployeeJFrame extends javax.swing.JFrame {
     private MyHashTable mainHT;
     private DefaultTableModel mainFTETableModel;
     private DefaultTableModel mainPTETableModel;
+    private boolean editMode;
+    private EmployeeInfo originalData;
     private File upload;
 
     /**
      * Creates new form AddEmployeeJFrame
      */
     public AddEmployeeJFrame() {
+        try {
+            // Set System L&F
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } 
+        catch (UnsupportedLookAndFeelException e) {
+           // handle exception
+        }
+        catch (ClassNotFoundException e) {
+           // handle exception
+        }
+        catch (InstantiationException e) {
+           // handle exception
+        }
+        catch (IllegalAccessException e) {
+           // handle exception
+        }
+        this.editMode = false;
         initComponents();
         
     }
@@ -83,6 +104,7 @@ public class AddEmployeeJFrame extends javax.swing.JFrame {
         jFormattedTextField2_WY = new javax.swing.JFormattedTextField();
         jLabel11_ImagePreview = new javax.swing.JLabel();
         jButton2_Upload = new javax.swing.JButton();
+        jButton1_Remove = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -215,6 +237,13 @@ public class AddEmployeeJFrame extends javax.swing.JFrame {
             }
         });
 
+        jButton1_Remove.setText("Remove");
+        jButton1_Remove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1_RemoveActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -247,11 +276,6 @@ public class AddEmployeeJFrame extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jComboBox2_WorkL, 0, 1, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton2_Cancel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1_Submit)
-                        .addGap(2, 2, 2))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -278,14 +302,22 @@ public class AddEmployeeJFrame extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jFormattedTextField2_WY)
                                     .addComponent(jFormattedTextField2_HW)
-                                    .addComponent(jFormattedTextField2_HpW))))))
+                                    .addComponent(jFormattedTextField2_HpW)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton2_Cancel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton1_Remove, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton1_Submit)
+                                .addGap(2, 2, 2))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel11_ImagePreview, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton2_Upload, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel11_ImagePreview, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2_Upload, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton2_Upload, jLabel11_ImagePreview});
@@ -335,11 +367,17 @@ public class AddEmployeeJFrame extends javax.swing.JFrame {
                 .addComponent(jLabel11_ImagePreview, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2_Upload)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1_Submit)
-                    .addComponent(jButton2_Cancel))
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1_Submit)
+                            .addComponent(jButton2_Cancel))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1_Remove)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         pack();
@@ -479,6 +517,16 @@ public class AddEmployeeJFrame extends javax.swing.JFrame {
 
     private void jButton2_CancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2_CancelActionPerformed
         // TODO add your handling code here:
+        if (this.editMode){
+            this.mainHT.addToTable(originalData);
+            if (this.originalData instanceof FTE){
+                Object[] fteRow = this.changeObjectsToRows(originalData);
+                this.mainFTETableModel.addRow(fteRow);
+            }else if (this.originalData instanceof PTE){
+                Object[] pteRow = this.changeObjectsToRows(originalData);
+                this.mainPTETableModel.addRow(pteRow);
+            }
+        }
         this.setVisible(false);
         this.dispose();
     }//GEN-LAST:event_jButton2_CancelActionPerformed
@@ -499,6 +547,11 @@ public class AddEmployeeJFrame extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButton2_UploadActionPerformed
+
+    private void jButton1_RemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1_RemoveActionPerformed
+        // TODO add your handling code here:
+        this.jLabel11_ImagePreview.setIcon(null);
+    }//GEN-LAST:event_jButton1_RemoveActionPerformed
 
     /**
      * @param args the command line arguments
@@ -543,6 +596,55 @@ public class AddEmployeeJFrame extends javax.swing.JFrame {
         g2d.drawImage(image, 0, 0, w, h, null);
         g2d.dispose();
         return bi;
+    }
+    
+    public Object[] changeObjectsToRows(EmployeeInfo employeeObject){
+        int empNum = employeeObject.getEmpNumber();
+        String firstName = employeeObject.getFirstName();
+        String lastName = employeeObject.getLastName();
+        int gender = employeeObject.getGender();
+        int workL = employeeObject.getWorkLocation();
+        String genderS, workLocationS;
+            switch (gender){
+                case 0:
+                    genderS = "Male";
+                    break;
+                case 1:
+                    genderS = "Female";
+                    break;
+                default:
+                    genderS = "Other";
+            }
+            switch (workL){
+                case 1:
+                    workLocationS = "Ottawa";
+                    break;
+                case 2:
+                    workLocationS = "Chicago";
+                    break;
+                default:
+                    workLocationS = "Mississauga";
+                    break;
+            }
+        if (employeeObject instanceof FTE){
+            double annualSalary = ((FTE) employeeObject).getAnnualSalary();
+            double grossPay = annualSalary;
+            double netPay = ((FTE) employeeObject).calcAnnualNetIncome();
+            Object[] fteRow = {empNum, firstName, lastName, 
+                genderS, workLocationS, annualSalary, grossPay, netPay};
+            return fteRow;
+        }else if (employeeObject instanceof PTE){
+            double hourlyWage = ((PTE) employeeObject).getHourlyWage();
+            double hoursPerWeek = ((PTE) employeeObject).getHoursPerWeek();
+            double weeksPerYear = ((PTE) employeeObject).getWeeksPerYear();
+            double grossPay = hourlyWage*hoursPerWeek*weeksPerYear;
+            double netPay = ((PTE) employeeObject).calcAnnualNetIncome();
+            Object[] pteRow = {empNum, firstName, lastName, 
+                genderS, workLocationS, hourlyWage, hoursPerWeek, weeksPerYear,
+                grossPay, netPay};
+            return pteRow;
+        }
+        return null;
     }
     
     public void setEmpNum(int empNum){
@@ -609,6 +711,10 @@ public class AddEmployeeJFrame extends javax.swing.JFrame {
         this.jFormattedTextField2_WY.setValue(weeksPerYear);
     }
     
+    public void enableEditMode(){
+        this.editMode = true;
+    }
+    
     public void setImagePreview(String filePath){
         try {
             upload = new File(filePath);
@@ -619,12 +725,14 @@ public class AddEmployeeJFrame extends javax.swing.JFrame {
         }
     }
     
-    public void disableCancel(){
-        this.jButton2_Cancel.setEnabled(false);
+    public void setOriginalData(EmployeeInfo ei){
+        this.originalData = ei;
     }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup2_AddEmp;
+    private javax.swing.JButton jButton1_Remove;
     private javax.swing.JButton jButton1_Submit;
     private javax.swing.JButton jButton2_Cancel;
     private javax.swing.JButton jButton2_Upload;

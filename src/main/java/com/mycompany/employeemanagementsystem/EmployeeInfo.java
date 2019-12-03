@@ -36,6 +36,7 @@ public class EmployeeInfo {
         }
         this.workLocation = wL;
         this.deductionsRate = dR;
+        this.photoPath = null;
     }
 
     protected EmployeeInfo(int eN, String fN, String lN){
@@ -45,6 +46,7 @@ public class EmployeeInfo {
         this.gender = 0;
         this.workLocation = 0;
         this.deductionsRate = 0;
+        this.photoPath = null;
     }
 
     public int getEmpNumber() {

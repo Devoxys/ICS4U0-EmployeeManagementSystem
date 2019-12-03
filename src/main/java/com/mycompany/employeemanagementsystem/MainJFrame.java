@@ -16,11 +16,13 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -37,6 +39,24 @@ public class MainJFrame extends javax.swing.JFrame {
      * Creates new form MainJFrame
      */
     public MainJFrame() {
+        // Setting Look and Feel courtesy of the official Java tutorials
+        // Sets L&F to the system default
+        try {
+            // Set System L&F
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } 
+        catch (UnsupportedLookAndFeelException e) {
+           e.printStackTrace();
+        }
+        catch (ClassNotFoundException e) {
+           e.printStackTrace();
+        }
+        catch (InstantiationException e) {
+           e.printStackTrace();
+        }
+        catch (IllegalAccessException e) {
+           e.printStackTrace();
+        }
         initComponents();
         theHT = new MyHashTable(10);
         fileChooser = new JFileChooser();
@@ -78,180 +98,184 @@ public class MainJFrame extends javax.swing.JFrame {
         jMenuItem1_SaveAs = new javax.swing.JMenuItem();
         jMenuItem2_Load = new javax.swing.JMenuItem();
         jMenuItem1_Export = new javax.swing.JMenuItem();
+        jMenuItem1_Import = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable2.getSelectionModel().addListSelectionListener(
+        jButton1_FTEAdd.setText("Add");
+        jButton1_FTEAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1_FTEAddActionPerformed(evt);
+            }
+        });
+
+        jButton2_FTEEdit.setText("Edit");
+        jButton2_FTEEdit.setToolTipText("");
+        jButton2_FTEEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2_FTEEditActionPerformed(evt);
+            }
+        });
+
+        jButton3_FTERemove.setText("Remove");
+        jButton3_FTERemove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3_FTERemoveActionPerformed(evt);
+            }
+        });
+
+        jButton4_FTESearch.setText("Search");
+        jButton4_FTESearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4_FTESearchActionPerformed(evt);
+            }
+        });
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Number", "First Name", "Last Name", "Gender", "Location", "Deductions Rate", "Annual Salary", "Gross Pay", "Net Pay"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTable1.getSelectionModel().addListSelectionListener(
             new ListSelectionListener(){
                 @Override
                 public void valueChanged(ListSelectionEvent evt){
-                    updateImage(false, evt.getFirstIndex());
+                    if (!evt.getValueIsAdjusting()){
+                        updateImage(true, jTable1.getSelectedRow());
+                    }
                 }
             });
+            jScrollPane1.setViewportView(jTable1);
 
-            jButton1_FTEAdd.setText("Add");
-            jButton1_FTEAdd.addActionListener(new java.awt.event.ActionListener() {
+            jFormattedTextField1_FTESearch.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+
+            jButton1_FTEShowAll.setText("Show All");
+            jButton1_FTEShowAll.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    jButton1_FTEAddActionPerformed(evt);
+                    jButton1_FTEShowAllActionPerformed(evt);
                 }
             });
 
-            jButton2_FTEEdit.setText("Edit");
-            jButton2_FTEEdit.setToolTipText("");
-            jButton2_FTEEdit.addActionListener(new java.awt.event.ActionListener() {
+            jLabel1_FTEImage.setBackground(new java.awt.Color(153, 153, 153));
+            jLabel1_FTEImage.setOpaque(true);
+
+            javax.swing.GroupLayout jPanel1_FTELayout = new javax.swing.GroupLayout(jPanel1_FTE);
+            jPanel1_FTE.setLayout(jPanel1_FTELayout);
+            jPanel1_FTELayout.setHorizontalGroup(
+                jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1_FTELayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1_FTELayout.createSequentialGroup()
+                            .addComponent(jFormattedTextField1_FTESearch, javax.swing.GroupLayout.DEFAULT_SIZE, 555, Short.MAX_VALUE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButton4_FTESearch, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1_FTELayout.createSequentialGroup()
+                            .addComponent(jScrollPane1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1_FTELayout.createSequentialGroup()
+                                    .addGap(6, 6, 6)
+                                    .addComponent(jLabel1_FTEImage, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jButton1_FTEAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton2_FTEEdit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton3_FTERemove, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton1_FTEShowAll, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addContainerGap())
+            );
+            jPanel1_FTELayout.setVerticalGroup(
+                jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1_FTELayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1_FTELayout.createSequentialGroup()
+                            .addComponent(jButton1_FTEAdd)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButton2_FTEEdit)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButton3_FTERemove)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel1_FTEImage, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                            .addComponent(jButton1_FTEShowAll))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jFormattedTextField1_FTESearch, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton4_FTESearch)))
+            );
+
+            jTabbedPane1_PTEAdd.addTab("Full Time Employees", jPanel1_FTE);
+
+            jButton1_PTEAdd.setText("Add");
+            jButton1_PTEAdd.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    jButton2_FTEEditActionPerformed(evt);
+                    jButton1_PTEAddActionPerformed(evt);
                 }
             });
 
-            jButton3_FTERemove.setText("Remove");
-            jButton3_FTERemove.addActionListener(new java.awt.event.ActionListener() {
+            jButton2_PTEEdit.setText("Edit");
+            jButton2_PTEEdit.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    jButton3_FTERemoveActionPerformed(evt);
+                    jButton2_PTEEditActionPerformed(evt);
                 }
             });
 
-            jButton4_FTESearch.setText("Search");
-            jButton4_FTESearch.addActionListener(new java.awt.event.ActionListener() {
+            jButton3_PTERemove.setText("Remove");
+            jButton3_PTERemove.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    jButton4_FTESearchActionPerformed(evt);
+                    jButton3_PTERemoveActionPerformed(evt);
                 }
             });
 
-            jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            jButton4_PTESearch.setText("Search");
+            jButton4_PTESearch.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jButton4_PTESearchActionPerformed(evt);
+                }
+            });
+
+            jTable2.setModel(new javax.swing.table.DefaultTableModel(
                 new Object [][] {
 
                 },
                 new String [] {
-                    "Number", "First Name", "Last Name", "Gender", "Location", "Deductions Rate", "Annual Salary", "Gross Pay", "Net Pay"
+                    "Number", "First Name", "Last Name", "Gender", "Location", "Deductions Rate", "Hourly Wage", "Hours Per Week", "Weeks Per Year", "Gross Pay", "Net Pay"
                 }
             ) {
                 boolean[] canEdit = new boolean [] {
-                    false, false, false, false, false, false, false, false, false
+                    false, false, false, false, false, false, false, false, false, false, false
                 };
 
                 public boolean isCellEditable(int rowIndex, int columnIndex) {
                     return canEdit [columnIndex];
                 }
             });
-            jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-            jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-            jTable1.getSelectionModel().addListSelectionListener(
+            jTable2.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+            jTable2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+            jTable2.getSelectionModel().addListSelectionListener(
                 new ListSelectionListener(){
                     @Override
                     public void valueChanged(ListSelectionEvent evt){
-                        updateImage(true, evt.getFirstIndex());
+                        if (!evt.getValueIsAdjusting()){
+                            updateImage(false, jTable2.getSelectedRow());
+                        }
                     }
                 });
-                jScrollPane1.setViewportView(jTable1);
-
-                jFormattedTextField1_FTESearch.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-
-                jButton1_FTEShowAll.setText("Show All");
-                jButton1_FTEShowAll.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent evt) {
-                        jButton1_FTEShowAllActionPerformed(evt);
-                    }
-                });
-
-                jLabel1_FTEImage.setBackground(new java.awt.Color(153, 153, 153));
-                jLabel1_FTEImage.setOpaque(true);
-
-                javax.swing.GroupLayout jPanel1_FTELayout = new javax.swing.GroupLayout(jPanel1_FTE);
-                jPanel1_FTE.setLayout(jPanel1_FTELayout);
-                jPanel1_FTELayout.setHorizontalGroup(
-                    jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1_FTELayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1_FTELayout.createSequentialGroup()
-                                .addComponent(jFormattedTextField1_FTESearch, javax.swing.GroupLayout.DEFAULT_SIZE, 555, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton4_FTESearch, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1_FTELayout.createSequentialGroup()
-                                .addComponent(jScrollPane1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1_FTELayout.createSequentialGroup()
-                                        .addGap(6, 6, 6)
-                                        .addComponent(jLabel1_FTEImage, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jButton1_FTEAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jButton2_FTEEdit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jButton3_FTERemove, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jButton1_FTEShowAll, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addContainerGap())
-                );
-                jPanel1_FTELayout.setVerticalGroup(
-                    jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1_FTELayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1_FTELayout.createSequentialGroup()
-                                .addComponent(jButton1_FTEAdd)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton2_FTEEdit)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton3_FTERemove)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel1_FTEImage, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
-                                .addComponent(jButton1_FTEShowAll))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jFormattedTextField1_FTESearch, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton4_FTESearch)))
-                );
-
-                jTabbedPane1_PTEAdd.addTab("Full Time Employees", jPanel1_FTE);
-
-                jButton1_PTEAdd.setText("Add");
-                jButton1_PTEAdd.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent evt) {
-                        jButton1_PTEAddActionPerformed(evt);
-                    }
-                });
-
-                jButton2_PTEEdit.setText("Edit");
-                jButton2_PTEEdit.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent evt) {
-                        jButton2_PTEEditActionPerformed(evt);
-                    }
-                });
-
-                jButton3_PTERemove.setText("Remove");
-                jButton3_PTERemove.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent evt) {
-                        jButton3_PTERemoveActionPerformed(evt);
-                    }
-                });
-
-                jButton4_PTESearch.setText("Search");
-                jButton4_PTESearch.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent evt) {
-                        jButton4_PTESearchActionPerformed(evt);
-                    }
-                });
-
-                jTable2.setModel(new javax.swing.table.DefaultTableModel(
-                    new Object [][] {
-
-                    },
-                    new String [] {
-                        "Number", "First Name", "Last Name", "Gender", "Location", "Deductions Rate", "Hourly Wage", "Hours Per Week", "Weeks Per Year", "Gross Pay", "Net Pay"
-                    }
-                ) {
-                    boolean[] canEdit = new boolean [] {
-                        false, false, false, false, false, false, false, false, false, false, false
-                    };
-
-                    public boolean isCellEditable(int rowIndex, int columnIndex) {
-                        return canEdit [columnIndex];
-                    }
-                });
-                jTable2.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-                jTable2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
                 jScrollPane2.setViewportView(jTable2);
 
                 jFormattedTextField1_PTESearch.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
@@ -273,15 +297,17 @@ public class MainJFrame extends javax.swing.JFrame {
                     .addGroup(jPanel2_PTELayout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel2_PTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jFormattedTextField1_PTESearch, javax.swing.GroupLayout.DEFAULT_SIZE, 554, Short.MAX_VALUE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 548, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jFormattedTextField1_PTESearch, javax.swing.GroupLayout.DEFAULT_SIZE, 557, Short.MAX_VALUE)
+                            .addGroup(jPanel2_PTELayout.createSequentialGroup()
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 551, Short.MAX_VALUE)
+                                .addGap(6, 6, 6)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2_PTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton2_PTEEdit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton3_PTERemove, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
-                            .addComponent(jButton4_PTESearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1_PTEAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1_PTEShowAll, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton2_PTEEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton3_PTERemove, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton4_PTESearch, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1_PTEAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1_PTEShowAll, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2_PTELayout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jLabel1_PTEImage, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -351,6 +377,15 @@ public class MainJFrame extends javax.swing.JFrame {
                 });
                 jMenu1.add(jMenuItem1_Export);
 
+                jMenuItem1_Import.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
+                jMenuItem1_Import.setText("Import");
+                jMenuItem1_Import.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        jMenuItem1_ImportActionPerformed(evt);
+                    }
+                });
+                jMenu1.add(jMenuItem1_Import);
+
                 jMenuBar1.add(jMenu1);
 
                 setJMenuBar(jMenuBar1);
@@ -372,17 +407,19 @@ public class MainJFrame extends javax.swing.JFrame {
     
     
     private void jMenuItem2_LoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2_LoadActionPerformed
-        // TODO add your handling code here:
-        // Load
+        // TODO add your handling code here: 
+        //Loading a file
         ((DefaultTableModel)this.jTable1.getModel()).setRowCount(0);
         ((DefaultTableModel)this.jTable2.getModel()).setRowCount(0);
-        this.fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-        
+        //this.fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+        int openResult = this.fileChooser.showOpenDialog(this);
+        if (openResult == JFileChooser.APPROVE_OPTION){
+            this.employeesFile = this.fileChooser.getSelectedFile();
+        }
         FileReader fr = null;
         BufferedReader br = null;
         try{
             fr = new FileReader(this.employeesFile.getAbsolutePath());
-            
         }catch (FileNotFoundException e){
             System.out.println("Either file not found or something went wrong");
         }
@@ -390,15 +427,17 @@ public class MainJFrame extends javax.swing.JFrame {
             br = new BufferedReader(fr);
             String ln;
             while ((ln=br.readLine()) != null){
-                String[] strp = ln.split(" ");
+                String[] strp = ln.split(", ");
                 if (strp[0].equals("FTE")){
                     FTE newFTE = (FTE) this.createEmployee(strp);
                     theHT.addToTable(newFTE);
+                    //theHT.displayTable();
                     DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
                     model.addRow(this.changeStringsToRows(strp));                    
                 }else if(strp[0].equals("PTE")){
                     PTE newPTE = (PTE) this.createEmployee(strp);
                     theHT.addToTable(newPTE);
+                    //theHT.displayTable();
                     DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
                     model.addRow(this.changeStringsToRows(strp));
                 }else {
@@ -420,7 +459,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void jMenuItem1_SaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1_SaveActionPerformed
         // TODO add your handling code here:
-        //Save
+        //Saving a file
         FileWriter fw = null;
         BufferedWriter bw = null;
         if (this.employeesFile == null){
@@ -437,20 +476,20 @@ public class MainJFrame extends javax.swing.JFrame {
             
             for (EmployeeInfo e: allContent){
                 if (e instanceof FTE){
-                    String out = "FTE " + e.getEmpNumber() + " " 
-                            + e.getFirstName() + " " + e.getLastName() + " "
-                            + e.getGender() + " " + e.getWorkLocation() + " "
-                            + e.getDeductionsRate() + " " + ((FTE) e).getAnnualSalary()
-                            + e.getPhotoPath();
+                    String out = "FTE, " + e.getEmpNumber() + ", " 
+                            + e.getFirstName() + ", " + e.getLastName() + ", "
+                            + e.getGender() + ", " + e.getWorkLocation() + ", "
+                            + e.getDeductionsRate() + ", " + ((FTE) e).getAnnualSalary()
+                            + ", " + e.getPhotoPath();
                     bw.write(out);
                     bw.newLine();
                 }else if (e instanceof PTE){
-                    String out = "PTE " + e.getEmpNumber() + " " 
-                            + e.getFirstName() + " " + e.getLastName() + " "
-                            + e.getGender() + " " + e.getWorkLocation() + " "
-                            + e.getDeductionsRate() + " " + ((PTE) e).getHourlyWage() + " "
-                            + ((PTE) e).getHoursPerWeek() + " " + ((PTE) e).getWeeksPerYear()
-                            + e.getPhotoPath();
+                    String out = "PTE, " + e.getEmpNumber() + ", " 
+                            + e.getFirstName() + ", " + e.getLastName() + ", "
+                            + e.getGender() + ", " + e.getWorkLocation() + ", "
+                            + e.getDeductionsRate() + ", " + ((PTE) e).getHourlyWage() + ", "
+                            + ((PTE) e).getHoursPerWeek() + ", " + ((PTE) e).getWeeksPerYear()
+                            + ", " + e.getPhotoPath();
                     bw.write(out);
                     bw.newLine();
                 }
@@ -469,16 +508,17 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void jButton1_FTEAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1_FTEAddActionPerformed
         // TODO add your handling code here:
+        // Adding an employee
         AddEmployeeJFrame addEmployeeJFrame = new AddEmployeeJFrame();
         addEmployeeJFrame.setVisible(true);
         addEmployeeJFrame.setMainFTETableModel((DefaultTableModel) jTable1.getModel());
         addEmployeeJFrame.setMainPTETableModel((DefaultTableModel) jTable2.getModel());
         addEmployeeJFrame.setMainHT(theHT);
-        
     }//GEN-LAST:event_jButton1_FTEAddActionPerformed
 
     private void jButton4_FTESearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4_FTESearchActionPerformed
         // TODO add your handling code here:
+        // Searching, exact matches are displayed at the top and partial matches after
         ((DefaultTableModel)this.jTable1.getModel()).setRowCount(0);
         ((DefaultTableModel)this.jTable2.getModel()).setRowCount(0);
         String query = this.jFormattedTextField1_FTESearch.getText();
@@ -509,6 +549,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void jButton3_FTERemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3_FTERemoveActionPerformed
         // TODO add your handling code here:
+        // Removing an employee
         int rowToRemove = jTable1.getSelectedRow();
         if (rowToRemove != -1){
             int empNum = this.getEmployeeNumberFromSelectedRow(jTable1);
@@ -520,6 +561,8 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void jButton2_FTEEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2_FTEEditActionPerformed
         // TODO add your handling code here:
+        // Editing an employee by removing them and passing their data into 
+        // the AddEmployeeJFrame in its Edit mode
         int rowToEdit = jTable1.getSelectedRow();
         if (rowToEdit != -1){
             int empNum = Integer.parseInt(jTable1.getModel().getValueAt(rowToEdit, 0).toString());
@@ -537,7 +580,7 @@ public class MainJFrame extends javax.swing.JFrame {
             editEmployeeJFrame.setMainFTETableModel((DefaultTableModel) jTable1.getModel());
             editEmployeeJFrame.setMainPTETableModel((DefaultTableModel) jTable2.getModel());
             editEmployeeJFrame.setMainHT(theHT);
-
+            editEmployeeJFrame.enableEditMode();
             editEmployeeJFrame.selectFTERadio();
             editEmployeeJFrame.setEmpNum(empNum);
             editEmployeeJFrame.setFirstName(firstName);
@@ -547,7 +590,7 @@ public class MainJFrame extends javax.swing.JFrame {
             editEmployeeJFrame.setDeductionsRate(deductionsRate);
             editEmployeeJFrame.setAnnualSalary(annualSalary);
             editEmployeeJFrame.setImagePreview(removedFTE.getPhotoPath());
-            editEmployeeJFrame.disableCancel();
+            editEmployeeJFrame.setOriginalData(removedFTE);
             
             editEmployeeJFrame.setVisible(true);
 
@@ -559,6 +602,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void jButton1_FTEShowAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1_FTEShowAllActionPerformed
         // TODO add your handling code here:
+        // Show All Employees, use after a search
         ((DefaultTableModel)this.jTable1.getModel()).setRowCount(0);
         ((DefaultTableModel)this.jTable2.getModel()).setRowCount(0);
         ArrayList<EmployeeInfo> allEmployees = theHT.getAllFromTable();
@@ -574,6 +618,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void jButton4_PTESearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4_PTESearchActionPerformed
         // TODO add your handling code here:
+        // Search button on PTE tab
         ((DefaultTableModel)this.jTable1.getModel()).setRowCount(0);
         ((DefaultTableModel)this.jTable2.getModel()).setRowCount(0);
         String query = this.jFormattedTextField1_PTESearch.getText();
@@ -604,6 +649,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void jButton3_PTERemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3_PTERemoveActionPerformed
         // TODO add your handling code here:
+        // Remove on PTE tab
         int rowToRemove = jTable2.getSelectedRow();
         if (rowToRemove != -1){
             int empNum = this.getEmployeeNumberFromSelectedRow(jTable2);
@@ -616,6 +662,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void jButton2_PTEEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2_PTEEditActionPerformed
         // TODO add your handling code here:
+        // Edit of PTE Tab
         int rowToEdit = jTable2.getSelectedRow();
         if (rowToEdit != -1){
             int empNum = Integer.parseInt(jTable2.getModel().getValueAt(rowToEdit, 0).toString());
@@ -634,7 +681,7 @@ public class MainJFrame extends javax.swing.JFrame {
             editEmployeeJFrame.setMainFTETableModel((DefaultTableModel) jTable1.getModel());
             editEmployeeJFrame.setMainPTETableModel((DefaultTableModel) jTable2.getModel());
             editEmployeeJFrame.setMainHT(theHT);
-
+            editEmployeeJFrame.enableEditMode();
             editEmployeeJFrame.selectPTERadio();
             editEmployeeJFrame.setEmpNum(empNum);
             editEmployeeJFrame.setFirstName(firstName);
@@ -646,7 +693,7 @@ public class MainJFrame extends javax.swing.JFrame {
             editEmployeeJFrame.setHoursPerWeek(hoursPerWeek);
             editEmployeeJFrame.setWeeksPerYear(weeksPerYear);
             editEmployeeJFrame.setImagePreview(removedPTE.getPhotoPath());
-            editEmployeeJFrame.disableCancel();
+            editEmployeeJFrame.setOriginalData(removedPTE);
 
             editEmployeeJFrame.setVisible(true);
 
@@ -657,6 +704,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void jButton1_PTEAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1_PTEAddActionPerformed
         // TODO add your handling code here:
+        // PTE Add Button
         AddEmployeeJFrame addEmployeeJFrame = new AddEmployeeJFrame();
         addEmployeeJFrame.setVisible(true);
         addEmployeeJFrame.setMainFTETableModel((DefaultTableModel) jTable1.getModel());
@@ -666,6 +714,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void jButton1_PTEShowAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1_PTEShowAllActionPerformed
         // TODO add your handling code here:
+        // PTE Show All Button
         ((DefaultTableModel)this.jTable1.getModel()).setRowCount(0);
         ((DefaultTableModel)this.jTable2.getModel()).setRowCount(0);
         ArrayList<EmployeeInfo> allEmployees = theHT.getAllFromTable();
@@ -681,6 +730,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void jMenuItem1_SaveAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1_SaveAsActionPerformed
         // TODO add your handling code here:
+        // Save as, save but file chooser shows every time
         FileWriter fw = null;
         BufferedWriter bw = null;
         
@@ -697,20 +747,20 @@ public class MainJFrame extends javax.swing.JFrame {
             
             for (EmployeeInfo e: allContent){
                 if (e instanceof FTE){
-                    String out = "FTE " + e.getEmpNumber() + " " 
-                            + e.getFirstName() + " " + e.getLastName() + " "
-                            + e.getGender() + " " + e.getWorkLocation() + " "
-                            + e.getDeductionsRate() + " " + ((FTE) e).getAnnualSalary()
-                            + e.getPhotoPath();
+                    String out = "FTE, " + e.getEmpNumber() + ", " 
+                            + e.getFirstName() + ", " + e.getLastName() + ", "
+                            + e.getGender() + ", " + e.getWorkLocation() + ", "
+                            + e.getDeductionsRate() + ", " + ((FTE) e).getAnnualSalary()
+                            + ", " + e.getPhotoPath();
                     bw.write(out);
                     bw.newLine();
                 }else if (e instanceof PTE){
-                    String out = "PTE " + e.getEmpNumber() + " " 
-                            + e.getFirstName() + " " + e.getLastName() + " "
-                            + e.getGender() + " " + e.getWorkLocation() + " "
-                            + e.getDeductionsRate() + " " + ((PTE) e).getHourlyWage() + " "
-                            + ((PTE) e).getHoursPerWeek() + " " + ((PTE) e).getWeeksPerYear()
-                            + e.getPhotoPath();
+                    String out = "PTE, " + e.getEmpNumber() + ", " 
+                            + e.getFirstName() + ", " + e.getLastName() + ", "
+                            + e.getGender() + ", " + e.getWorkLocation() + ", "
+                            + e.getDeductionsRate() + ", " + ((PTE) e).getHourlyWage() + ", "
+                            + ((PTE) e).getHoursPerWeek() + ", " + ((PTE) e).getWeeksPerYear()
+                            + ", " + e.getPhotoPath();
                     bw.write(out);
                     bw.newLine();
                 }
@@ -729,6 +779,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void jMenuItem1_ExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1_ExportActionPerformed
         // TODO add your handling code here:
+        // Saves data without images for portability
         FileWriter fw = null;
         BufferedWriter bw = null;
         
@@ -745,18 +796,18 @@ public class MainJFrame extends javax.swing.JFrame {
             
             for (EmployeeInfo e: allContent){
                 if (e instanceof FTE){
-                    String out = "FTE " + e.getEmpNumber() + " " 
-                            + e.getFirstName() + " " + e.getLastName() + " "
-                            + e.getGender() + " " + e.getWorkLocation() + " "
-                            + e.getDeductionsRate() + " " + ((FTE) e).getAnnualSalary();
+                    String out = "FTE, " + e.getEmpNumber() + ", " 
+                            + e.getFirstName() + ", " + e.getLastName() + ", "
+                            + e.getGender() + ", " + e.getWorkLocation() + ", "
+                            + e.getDeductionsRate() + ", " + ((FTE) e).getAnnualSalary();
                     bw.write(out);
                     bw.newLine();
                 }else if (e instanceof PTE){
-                    String out = "PTE " + e.getEmpNumber() + " " 
-                            + e.getFirstName() + " " + e.getLastName() + " "
-                            + e.getGender() + " " + e.getWorkLocation() + " "
-                            + e.getDeductionsRate() + " " + ((PTE) e).getHourlyWage() + " "
-                            + ((PTE) e).getHoursPerWeek() + " " + ((PTE) e).getWeeksPerYear();
+                    String out = "PTE, " + e.getEmpNumber() + ", " 
+                            + e.getFirstName() + ", " + e.getLastName() + ", "
+                            + e.getGender() + ", " + e.getWorkLocation() + ", "
+                            + e.getDeductionsRate() + ", " + ((PTE) e).getHourlyWage() + ", "
+                            + ((PTE) e).getHoursPerWeek() + ", " + ((PTE) e).getWeeksPerYear();
                     bw.write(out);
                     bw.newLine();
                 }
@@ -772,6 +823,11 @@ public class MainJFrame extends javax.swing.JFrame {
 	    }
 	}
     }//GEN-LAST:event_jMenuItem1_ExportActionPerformed
+
+    private void jMenuItem1_ImportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1_ImportActionPerformed
+        // Import is the same as Load since the load code works for export files
+        this.jMenuItem2_LoadActionPerformed(evt);
+    }//GEN-LAST:event_jMenuItem1_ImportActionPerformed
 
     /**
      * @param args the command line arguments
@@ -810,6 +866,7 @@ public class MainJFrame extends javax.swing.JFrame {
     
     
     public EmployeeInfo createEmployee(String[] para){
+        // Takes array of strings and parses them into EmployeeInfo Objects
         if (para[0].equals("FTE")){
             FTE fteData = new FTE(Integer.parseInt(para[1]), 
                             para[2], para[3],
@@ -839,6 +896,7 @@ public class MainJFrame extends javax.swing.JFrame {
     }
     
     public Object[] changeObjectsToRows(EmployeeInfo employeeObject){
+        // Takes object and its attributes and returns array of Objects for JTable rows
         int empNum = employeeObject.getEmpNumber();
         String firstName = employeeObject.getFirstName();
         String lastName = employeeObject.getLastName();
@@ -957,25 +1015,34 @@ public class MainJFrame extends javax.swing.JFrame {
     }
     
     public void updateImage(boolean employeeType, int index){
+        // Updates the image on the JFrame
         JTable whichTable = this.jTable2;
         if (employeeType){
             whichTable = this.jTable1;
         }
-        int empNum = Integer.parseInt(whichTable.getModel().getValueAt(index, 0).toString());
-        EmployeeInfo emp = this.theHT.getFromTable(empNum);
-        try{
-            ImageIcon ii = new ImageIcon(scaleImage(90, 90, ImageIO.read(new File(emp.getPhotoPath()))));
-            if (employeeType){
-                this.jLabel1_FTEImage.setIcon(ii);
-            }else {
-                this.jLabel1_PTEImage.setIcon(ii);
-            } 
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        int rowCount = whichTable.getRowCount();
+        
+        if (-1 < index && index < rowCount){
+            int empNum = Integer.parseInt(whichTable.getModel().getValueAt(index, 0).toString());
+            EmployeeInfo emp = this.theHT.getFromTable(empNum);
+            //System.out.println(emp.getPhotoPath());
+            try{
+                if (emp.getPhotoPath() != null){
+                    ImageIcon ii = new ImageIcon(scaleImage(90, 90, ImageIO.read(new File(emp.getPhotoPath()))));
+                    if (employeeType){
+                        this.jLabel1_FTEImage.setIcon(ii);
+                    }else {
+                        this.jLabel1_PTEImage.setIcon(ii);
+                    } 
+                }  
+            }catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
     }
     
     public BufferedImage scaleImage(int w, int h, BufferedImage image){
+        // Scales to image to the correct size
         BufferedImage bi = new BufferedImage(w, h, BufferedImage.TRANSLUCENT);
         Graphics2D g2d = (Graphics2D) bi.createGraphics();
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -1003,6 +1070,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1_Export;
+    private javax.swing.JMenuItem jMenuItem1_Import;
     private javax.swing.JMenuItem jMenuItem1_Save;
     private javax.swing.JMenuItem jMenuItem1_SaveAs;
     private javax.swing.JMenuItem jMenuItem2_Load;
