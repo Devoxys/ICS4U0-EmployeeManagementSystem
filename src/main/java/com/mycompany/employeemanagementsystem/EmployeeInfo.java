@@ -5,6 +5,11 @@
  */
 package com.mycompany.employeemanagementsystem;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+
 /**
  *
  * @author davidkpeng
@@ -16,6 +21,7 @@ public class EmployeeInfo {
     private int gender;
     private int workLocation;
     private double deductionsRate;
+    private String photoPath;
 
     protected EmployeeInfo(int eN, String fN, String lN, int g, int wL, double dR){
         this.empNumber = eN;
@@ -30,6 +36,7 @@ public class EmployeeInfo {
         }
         this.workLocation = wL;
         this.deductionsRate = dR;
+        this.photoPath = null;
     }
 
     protected EmployeeInfo(int eN, String fN, String lN){
@@ -39,6 +46,7 @@ public class EmployeeInfo {
         this.gender = 0;
         this.workLocation = 0;
         this.deductionsRate = 0;
+        this.photoPath = null;
     }
 
     public int getEmpNumber() {
@@ -93,6 +101,14 @@ public class EmployeeInfo {
 
     public void setDeductionsRate(double deductionsRate) {
         this.deductionsRate = deductionsRate;
+    }
+    
+    public String getPhotoPath(){
+        return photoPath;
+    }
+    
+    public void setPhotoPath(String photoPath){
+        this.photoPath = photoPath;
     }
 }
 
