@@ -604,6 +604,7 @@ public class AddEmployeeJFrame extends javax.swing.JFrame {
         String lastName = employeeObject.getLastName();
         int gender = employeeObject.getGender();
         int workL = employeeObject.getWorkLocation();
+        double deductionsRate = employeeObject.getDeductionsRate();
         String genderS, workLocationS;
             switch (gender){
                 case 0:
@@ -631,7 +632,7 @@ public class AddEmployeeJFrame extends javax.swing.JFrame {
             double grossPay = annualSalary;
             double netPay = ((FTE) employeeObject).calcAnnualNetIncome();
             Object[] fteRow = {empNum, firstName, lastName, 
-                genderS, workLocationS, annualSalary, grossPay, netPay};
+                genderS, workLocationS, deductionsRate, annualSalary, grossPay, netPay};
             return fteRow;
         }else if (employeeObject instanceof PTE){
             double hourlyWage = ((PTE) employeeObject).getHourlyWage();
@@ -640,7 +641,7 @@ public class AddEmployeeJFrame extends javax.swing.JFrame {
             double grossPay = hourlyWage*hoursPerWeek*weeksPerYear;
             double netPay = ((PTE) employeeObject).calcAnnualNetIncome();
             Object[] pteRow = {empNum, firstName, lastName, 
-                genderS, workLocationS, hourlyWage, hoursPerWeek, weeksPerYear,
+                genderS, workLocationS, deductionsRate, hourlyWage, hoursPerWeek, weeksPerYear,
                 grossPay, netPay};
             return pteRow;
         }
