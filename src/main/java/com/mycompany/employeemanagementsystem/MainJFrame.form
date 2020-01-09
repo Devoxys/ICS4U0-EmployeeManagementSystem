@@ -121,27 +121,24 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Component id="jFormattedTextField1_FTESearch" pref="555" max="32767" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButton4_FTESearch" min="-2" pref="105" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <Component id="jScrollPane1" max="32767" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                                      <Component id="jLabel1_FTEImage" min="-2" pref="90" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="jButton1_FTEAdd" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="jButton2_FTEEdit" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="jButton3_FTERemove" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="jButton1_FTEShowAll" alignment="0" min="-2" pref="105" max="-2" attributes="0"/>
-                                  </Group>
+                          <Component id="jTextField1_FTESearch" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" pref="552" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                                  <Component id="jLabel1_FTEImage" min="-2" pref="90" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="jButton1_FTEAdd" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jButton2_FTEEdit" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jButton3_FTERemove" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jButton1_FTEShowAll" alignment="0" min="-2" pref="105" max="-2" attributes="0"/>
                               </Group>
                           </Group>
+                          <Component id="jButton4_FTESearch" alignment="1" min="-2" pref="105" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -158,17 +155,17 @@
                               <Component id="jButton2_FTEEdit" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jButton3_FTERemove" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jLabel1_FTEImage" min="-2" pref="90" max="-2" attributes="0"/>
-                              <EmptySpace pref="46" max="32767" attributes="0"/>
+                              <EmptySpace pref="50" max="32767" attributes="0"/>
                               <Component id="jButton1_FTEShowAll" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jFormattedTextField1_FTESearch" min="-2" pref="27" max="-2" attributes="0"/>
-                          <Component id="jButton4_FTESearch" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jButton4_FTESearch" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextField1_FTESearch" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -281,13 +278,6 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JFormattedTextField" name="jFormattedTextField1_FTESearch">
-              <Properties>
-                <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-                  <Format format="#0" subtype="-1" type="0"/>
-                </Property>
-              </Properties>
-            </Component>
             <Component class="javax.swing.JButton" name="jButton1_FTEShowAll">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Show All"/>
@@ -304,6 +294,8 @@
                 <Property name="opaque" type="boolean" value="true"/>
               </Properties>
             </Component>
+            <Component class="javax.swing.JTextField" name="jTextField1_FTESearch">
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel2_PTE">
@@ -319,28 +311,21 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jFormattedTextField1_PTESearch" pref="557" max="32767" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="jScrollPane2" pref="551" max="32767" attributes="0"/>
-                              <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="jScrollPane2" pref="551" max="32767" attributes="0"/>
+                          <Component id="jTextField1_PTESearch" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jButton2_PTEEdit" min="-2" pref="106" max="-2" attributes="0"/>
                           <Component id="jButton3_PTERemove" alignment="0" min="-2" pref="106" max="-2" attributes="0"/>
                           <Component id="jButton4_PTESearch" min="-2" pref="106" max="-2" attributes="0"/>
                           <Component id="jButton1_PTEAdd" alignment="0" min="-2" pref="106" max="-2" attributes="0"/>
                           <Component id="jButton1_PTEShowAll" min="-2" pref="106" max="-2" attributes="0"/>
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                              <Component id="jLabel1_PTEImage" min="-2" pref="90" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="jLabel1_PTEImage" alignment="0" min="-2" pref="90" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -349,23 +334,23 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
                               <Component id="jButton1_PTEAdd" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jButton2_PTEEdit" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jButton3_PTERemove" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jLabel1_PTEImage" min="-2" pref="90" max="-2" attributes="0"/>
-                              <EmptySpace pref="43" max="32767" attributes="0"/>
+                              <EmptySpace pref="47" max="32767" attributes="0"/>
                               <Component id="jButton1_PTEShowAll" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jScrollPane2" pref="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jFormattedTextField1_PTESearch" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jButton4_PTESearch" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextField1_PTESearch" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
                   </Group>
@@ -490,13 +475,6 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JFormattedTextField" name="jFormattedTextField1_PTESearch">
-              <Properties>
-                <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-                  <Format format="#0" subtype="-1" type="0"/>
-                </Property>
-              </Properties>
-            </Component>
             <Component class="javax.swing.JButton" name="jButton1_PTEShowAll">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Show All"/>
@@ -512,6 +490,8 @@
                 </Property>
                 <Property name="opaque" type="boolean" value="true"/>
               </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="jTextField1_PTESearch">
             </Component>
           </SubComponents>
         </Container>

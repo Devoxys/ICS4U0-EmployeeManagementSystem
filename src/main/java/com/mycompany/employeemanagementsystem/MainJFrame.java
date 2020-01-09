@@ -79,9 +79,9 @@ public class MainJFrame extends javax.swing.JFrame {
         jButton4_FTESearch = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jFormattedTextField1_FTESearch = new javax.swing.JFormattedTextField();
         jButton1_FTEShowAll = new javax.swing.JButton();
         jLabel1_FTEImage = new javax.swing.JLabel();
+        jTextField1_FTESearch = new javax.swing.JTextField();
         jPanel2_PTE = new javax.swing.JPanel();
         jButton1_PTEAdd = new javax.swing.JButton();
         jButton2_PTEEdit = new javax.swing.JButton();
@@ -89,9 +89,9 @@ public class MainJFrame extends javax.swing.JFrame {
         jButton4_PTESearch = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
-        jFormattedTextField1_PTESearch = new javax.swing.JFormattedTextField();
         jButton1_PTEShowAll = new javax.swing.JButton();
         jLabel1_PTEImage = new javax.swing.JLabel();
+        jTextField1_PTESearch = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1_Save = new javax.swing.JMenuItem();
@@ -160,8 +160,6 @@ public class MainJFrame extends javax.swing.JFrame {
             });
             jScrollPane1.setViewportView(jTable1);
 
-            jFormattedTextField1_FTESearch.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-
             jButton1_FTEShowAll.setText("Show All");
             jButton1_FTEShowAll.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -179,22 +177,20 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addGroup(jPanel1_FTELayout.createSequentialGroup()
                     .addContainerGap()
                     .addGroup(jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1_FTELayout.createSequentialGroup()
-                            .addComponent(jFormattedTextField1_FTESearch, javax.swing.GroupLayout.DEFAULT_SIZE, 555, Short.MAX_VALUE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButton4_FTESearch, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel1_FTELayout.createSequentialGroup()
-                            .addComponent(jScrollPane1)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel1_FTELayout.createSequentialGroup()
-                                    .addGap(6, 6, 6)
-                                    .addComponent(jLabel1_FTEImage, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jButton1_FTEAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton2_FTEEdit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton3_FTERemove, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton1_FTEShowAll, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addComponent(jTextField1_FTESearch)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 552, Short.MAX_VALUE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1_FTELayout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(jLabel1_FTEImage, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jButton1_FTEAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton2_FTEEdit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton3_FTERemove, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton1_FTEShowAll, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButton4_FTESearch, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addContainerGap())
             );
             jPanel1_FTELayout.setVerticalGroup(
@@ -208,15 +204,15 @@ public class MainJFrame extends javax.swing.JFrame {
                             .addComponent(jButton2_FTEEdit)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jButton3_FTERemove)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGap(18, 18, 18)
                             .addComponent(jLabel1_FTEImage, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                             .addComponent(jButton1_FTEShowAll))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jFormattedTextField1_FTESearch, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton4_FTESearch)))
+                    .addGroup(jPanel1_FTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton4_FTESearch)
+                        .addComponent(jTextField1_FTESearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
             );
 
             jTabbedPane1_PTEAdd.addTab("Full Time Employees", jPanel1_FTE);
@@ -278,8 +274,6 @@ public class MainJFrame extends javax.swing.JFrame {
                 });
                 jScrollPane2.setViewportView(jTable2);
 
-                jFormattedTextField1_PTESearch.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-
                 jButton1_PTEShowAll.setText("Show All");
                 jButton1_PTEShowAll.addActionListener(new java.awt.event.ActionListener() {
                     public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -297,21 +291,16 @@ public class MainJFrame extends javax.swing.JFrame {
                     .addGroup(jPanel2_PTELayout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel2_PTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jFormattedTextField1_PTESearch, javax.swing.GroupLayout.DEFAULT_SIZE, 557, Short.MAX_VALUE)
-                            .addGroup(jPanel2_PTELayout.createSequentialGroup()
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 551, Short.MAX_VALUE)
-                                .addGap(6, 6, 6)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 551, Short.MAX_VALUE)
+                            .addComponent(jTextField1_PTESearch))
+                        .addGap(12, 12, 12)
                         .addGroup(jPanel2_PTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton2_PTEEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton3_PTERemove, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton4_PTESearch, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton1_PTEAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton1_PTEShowAll, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2_PTELayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jLabel1_PTEImage, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(11, 11, 11)))
+                            .addComponent(jLabel1_PTEImage, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap())
                 );
                 jPanel2_PTELayout.setVerticalGroup(
@@ -325,15 +314,15 @@ public class MainJFrame extends javax.swing.JFrame {
                                 .addComponent(jButton2_PTEEdit)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton3_PTERemove)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(18, 18, 18)
                                 .addComponent(jLabel1_PTEImage, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                                 .addComponent(jButton1_PTEShowAll))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2_PTELayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jFormattedTextField1_PTESearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton4_PTESearch))
+                            .addComponent(jButton4_PTESearch)
+                            .addComponent(jTextField1_PTESearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(3, 3, 3))
                 );
 
@@ -521,10 +510,10 @@ public class MainJFrame extends javax.swing.JFrame {
         // Searching, exact matches are displayed at the top and partial matches after
         ((DefaultTableModel)this.jTable1.getModel()).setRowCount(0);
         ((DefaultTableModel)this.jTable2.getModel()).setRowCount(0);
-        String query = this.jFormattedTextField1_FTESearch.getText();
+        String query = this.jTextField1_FTESearch.getText();
         ArrayList<EmployeeInfo> allEmployees = theHT.getAllFromTable();
         for (EmployeeInfo e: allEmployees){
-            if (Integer.toString(e.getEmpNumber()).equals(query)){
+            if (Integer.toString(e.getEmpNumber()).equals(query) || e.getFirstName().equals(query) || e.getLastName().equals(query)){
                 Object[] matchingRow = this.changeObjectsToRows(e);
                 if (e instanceof FTE){
                     ((DefaultTableModel)this.jTable1.getModel()).addRow(matchingRow);
@@ -535,8 +524,10 @@ public class MainJFrame extends javax.swing.JFrame {
         }
         for (EmployeeInfo e: allEmployees){
             String empNumString = Integer.toString(e.getEmpNumber());
-            boolean subcheck = empNumString.contains(query);
-            if (subcheck && !empNumString.equals(query)){
+            boolean subcheck0 = empNumString.contains(query);
+            boolean subcheck1 = e.getFirstName().contains(query);
+            boolean subcheck2 = e.getLastName().contains(query);
+            if ((subcheck0 || subcheck1 || subcheck2) && !empNumString.equals(query)){
                 Object[] matchingRow = this.changeObjectsToRows(e);
                 if (e instanceof FTE){
                     ((DefaultTableModel)this.jTable1.getModel()).addRow(matchingRow);
@@ -621,10 +612,10 @@ public class MainJFrame extends javax.swing.JFrame {
         // Search button on PTE tab
         ((DefaultTableModel)this.jTable1.getModel()).setRowCount(0);
         ((DefaultTableModel)this.jTable2.getModel()).setRowCount(0);
-        String query = this.jFormattedTextField1_PTESearch.getText();
+        String query = this.jTextField1_PTESearch.getText();
         ArrayList<EmployeeInfo> allEmployees = theHT.getAllFromTable();
         for (EmployeeInfo e: allEmployees){
-            if (Integer.toString(e.getEmpNumber()).equals(query)){
+            if (Integer.toString(e.getEmpNumber()).equals(query) || e.getFirstName().equals(query) || e.getLastName().equals(query)){
                 Object[] matchingRow = this.changeObjectsToRows(e);
                 if (e instanceof FTE){
                     ((DefaultTableModel)this.jTable1.getModel()).addRow(matchingRow);
@@ -635,8 +626,10 @@ public class MainJFrame extends javax.swing.JFrame {
         }
         for (EmployeeInfo e: allEmployees){
             String empNumString = Integer.toString(e.getEmpNumber());
-            boolean subcheck = empNumString.contains(query);
-            if (subcheck && !empNumString.equals(query)){
+            boolean subcheck0 = empNumString.contains(query);
+            boolean subcheck1 = e.getFirstName().contains(query);
+            boolean subcheck2 = e.getLastName().contains(query);
+            if ((subcheck0 || subcheck1 || subcheck2) && !empNumString.equals(query)){
                 Object[] matchingRow = this.changeObjectsToRows(e);
                 if (e instanceof FTE){
                     ((DefaultTableModel)this.jTable1.getModel()).addRow(matchingRow);
@@ -645,6 +638,8 @@ public class MainJFrame extends javax.swing.JFrame {
                 }
             }
         }
+        
+        
     }//GEN-LAST:event_jButton4_PTESearchActionPerformed
 
     private void jButton3_PTERemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3_PTERemoveActionPerformed
@@ -902,6 +897,7 @@ public class MainJFrame extends javax.swing.JFrame {
         String lastName = employeeObject.getLastName();
         int gender = employeeObject.getGender();
         int workL = employeeObject.getWorkLocation();
+        double deductionRate = employeeObject.getDeductionsRate();
         String genderS, workLocationS;
             switch (gender){
                 case 0:
@@ -929,7 +925,7 @@ public class MainJFrame extends javax.swing.JFrame {
             double grossPay = annualSalary;
             double netPay = ((FTE) employeeObject).calcAnnualNetIncome();
             Object[] fteRow = {empNum, firstName, lastName, 
-                genderS, workLocationS, annualSalary, grossPay, netPay};
+                genderS, workLocationS, deductionRate, annualSalary, grossPay, netPay};
             return fteRow;
         }else if (employeeObject instanceof PTE){
             double hourlyWage = ((PTE) employeeObject).getHourlyWage();
@@ -938,8 +934,8 @@ public class MainJFrame extends javax.swing.JFrame {
             double grossPay = hourlyWage*hoursPerWeek*weeksPerYear;
             double netPay = ((PTE) employeeObject).calcAnnualNetIncome();
             Object[] pteRow = {empNum, firstName, lastName, 
-                genderS, workLocationS, hourlyWage, hoursPerWeek, weeksPerYear,
-                grossPay, netPay};
+                genderS, workLocationS, deductionRate, hourlyWage, hoursPerWeek,
+                weeksPerYear, grossPay, netPay};
             return pteRow;
         }
         return null;
@@ -1063,8 +1059,6 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton3_PTERemove;
     private javax.swing.JButton jButton4_FTESearch;
     private javax.swing.JButton jButton4_PTESearch;
-    private javax.swing.JFormattedTextField jFormattedTextField1_FTESearch;
-    private javax.swing.JFormattedTextField jFormattedTextField1_PTESearch;
     private javax.swing.JLabel jLabel1_FTEImage;
     private javax.swing.JLabel jLabel1_PTEImage;
     private javax.swing.JMenu jMenu1;
@@ -1081,5 +1075,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1_PTEAdd;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JTextField jTextField1_FTESearch;
+    private javax.swing.JTextField jTextField1_PTESearch;
     // End of variables declaration//GEN-END:variables
 }
